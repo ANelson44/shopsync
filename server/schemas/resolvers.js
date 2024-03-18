@@ -40,7 +40,7 @@ const resolvers = {
     createList: async (parent, { items }, context) => {
       console.log(context);
       if (context.user) {
-        const order = new List({ items });
+        const list = new List({ items });
 
         await User.findByIdAndUpdate(context.user._id, {
           $push: { lists: list },
