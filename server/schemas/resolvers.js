@@ -1,7 +1,20 @@
 const { User, List, Item } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
+const { GraphQLScalarType } = require('graphql');
 
 const resolvers = {
+  Date: new GraphQLScalarType({
+    name: 'Date',
+    description: 'Custom scalar type for Date',
+    parseValue(value) {
+      // Convert incoming value to Date object
+      return new Date(value);
+    },
+    serialize(value) {
+      // Convert Date object to string for output
+      return value.toISOString();
+    },
+  }),
   Query: {
     user: async (parent, args, context) => {
       if (context.user) {
