@@ -1,4 +1,4 @@
-const { User, List } = require("../models");
+const { User, List, Item } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
@@ -10,7 +10,7 @@ const resolvers = {
           populate: "list",
         });
 
-        user.orders.sort((a, b) => b.addedDate - a.addedDate);
+        user.lists.sort((a, b) => b.addedDate - a.addedDate);
 
         return user;
       }
@@ -51,6 +51,29 @@ const resolvers = {
 
       throw AuthenticationError;
     },
+    addItemToList: async (parent, { listId, itemName }, context) => {
+      if (context.user) {
+        const list = await List.findById(listId);
+
+        if (!list) {
+          throw new Error("List not found");
+        }
+
+        const newItem = await Item.create({ name: itemName });
+
+        list.items.push(newItem._id);
+        await list.save();
+
+        const populatedList = await list.populate("items").execPopulate();
+
+        return populatedList;
+      }
+
+      throw new AuthenticationError(
+        "You must be logged in to add an item to a list"
+      );
+    },
+
     updateUser: async (parent, args, context) => {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, {
@@ -76,6 +99,15 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
+    },
+    logout: async (parent, args, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("You are not logged in");
+      }
+
+      localStorage.removeItem("token");
+
+      return { message: "Logout successful" };
     },
   },
 };

@@ -8,6 +8,11 @@ const itemSchema = new Schema({
     required: true,
     trim: true
   },
+  quantity: {
+    type: String,
+    required: true,
+    trim: true
+  },
 });
 
 const Item = mongoose.model('Item', itemSchema);
