@@ -14,12 +14,8 @@ function Header() {
             <Nav.Link href="#welcome">Welcome</Nav.Link>
             <Nav.Link href="#dashboard">Lists</Nav.Link>
             <Nav.Link href="#friends">My Friends</Nav.Link>
-            <Button variant="signup" size="lg" active>
-        Sign Up
-      </Button>{' '}
-      <Button variant="login"  size="lg" active>
-        Log In
-      </Button>
+            <Button href="#Login">Login</Button>
+            <Button href="#Signup">Signup</Button>
           </Nav>
         </Container>
       </Navbar>
