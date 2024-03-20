@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 
 
-function Navbar() {
+function Header() {
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
@@ -28,5 +28,5 @@ function Navbar() {
 }
 
 
-export default Navbar;
+export default Header;
 
