@@ -46,8 +46,8 @@ const Signup = () => {
           <div className="card-body">
             {data ? (
               <p>
-                Success! You will now be redirected{' '}
-                <Link to="/Dashboard">to the Dashboard.</Link>
+                Success! You may now head{' '}
+                <Link to="/Dashboard">to your Dashboard.</Link>
               </p>
             ) : (
               <form onSubmit={handleFormSubmit}>
