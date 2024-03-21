@@ -52,6 +52,8 @@ type Item {
     addItemToList(listId: ID!, name: String!, quantity: String): Item
     login(email: String!, password: String!): Auth
     logout: LogoutResponse
+    deleteItemFromList(listId: ID!, itemId: ID!): List
+    deleteList(listId: ID!): String
   }
   
   `
