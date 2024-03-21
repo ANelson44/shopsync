@@ -9,10 +9,11 @@ function Header() {
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="welcome">Shopsync</Navbar.Brand>
+
+          <Navbar.Brand href="/">Shopsync</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#welcome">Welcome</Nav.Link>
-            <Nav.Link href="#dashboard">Lists</Nav.Link>
+            <Nav.Link href="lists">Lists</Nav.Link>
             <Nav.Link href="#friends">My Friends</Nav.Link>
             <Button href="#Login">Login</Button>
             <Button href="#Signup">Signup</Button>

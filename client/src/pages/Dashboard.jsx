@@ -4,8 +4,8 @@ import { Button, Container, Row, Col } from 'react-bootstrap';
 const Dashboard = () => {
 
   return (
-    <Container fluid className="bg-dark text-white d-flex vw-100 vh-100 p-2">
-      <Row className="mb-4">
+    <Container fluid className="bg-dark text-white d-flex vh-100 p-2">
+      <Row className="m-5">
         <Col>
           <Button variant="outline-light">New List</Button>
         </Col>
