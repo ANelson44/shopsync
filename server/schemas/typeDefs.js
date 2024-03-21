@@ -37,7 +37,7 @@ type Item {
     createdAt: Date
     updatedAt: Date
   }
-  
+
   type Query {
     item(_id: ID!): Item
     user: User
@@ -50,11 +50,18 @@ type Item {
     createList(title: String!): List
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     addItemToList(listId: ID!, name: String!, quantity: String): Item
+    updateItemInList(listId: ID!, itemId: ID!, updatedItem: UpdateItemInput!): List
     login(email: String!, password: String!): Auth
     logout: LogoutResponse
     deleteItemFromList(listId: ID!, itemId: ID!): List
     deleteList(listId: ID!): String
   }
+
+  input UpdateItemInput {
+    name: String
+    quantity: String
+  }
+  
   
   `
 
