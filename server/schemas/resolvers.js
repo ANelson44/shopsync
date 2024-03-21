@@ -87,6 +87,56 @@ const resolvers = {
       );
     },
 
+    deleteItemFromList: async (parent, { listId, itemId }, context) => {
+      if (context.user) {
+        const list = await List.findById(listId);
+
+        if (!list) {
+          throw new Error("List not found");
+        }
+
+        if (!list.items.includes(itemId)) {
+          throw new Error("Item not found in the list");
+        }
+
+        list.items = list.items.filter(item => item.toString() !== itemId);
+        
+        await list.save();
+
+        await Item.findByIdAndDelete(itemId);
+
+        const populatedList = await list.populate("items").execPopulate();
+
+        return populatedList;
+      }
+
+      throw new AuthenticationError(
+        "You must be logged in to delete an item from a list"
+      );
+    },
+
+    deleteList: async (parent, { listId }, context) => {
+      if (context.user) {
+        const list = await List.findById(listId);
+    
+        if (!list) {
+          throw new Error("List not found");
+        }
+    
+        if (list.createdBy.toString() !== context.user.id) {
+          throw new Error("You are not authorized to delete this list");
+        }
+    
+        await List.findByIdAndDelete(listId);
+    
+        return "List deleted successfully";
+      }
+    
+      throw new AuthenticationError(
+        "You must be logged in to delete a list"
+      );
+    },
+
     updateUser: async (parent, args, context) => {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, {
