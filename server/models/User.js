@@ -104,7 +104,7 @@ userSchema.methods.isCorrectPassword = async function(password) {
 // `;
 
 
-sendVerificationEmail(transporter, emailServiceConfig.auth.user, userEmail, subject, htmlContent)
+//sendVerificationEmail(transporter, emailServiceConfig.auth.user, userEmail, subject, htmlContent)
 
 const User = mongoose.model('User', userSchema);
 
