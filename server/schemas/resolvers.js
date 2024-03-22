@@ -50,19 +50,42 @@ const resolvers = {
 
       return { token, user };
     },
-    createList: async (parent, { items }, context) => {
+    createList: async (parent, { title }, context) => {
       console.log(context);
       if (context.user) {
-        const list = new List({ items });
+        const list = new List({ title, createdBy: context.user._id });
 
         await User.findByIdAndUpdate(context.user._id, {
           $push: { lists: list },
         });
 
+        await list.save();
+
         return list;
       }
 
       throw AuthenticationError;
+    },
+    deleteList: async (parent, { listId }, context) => {
+      if (context.user) {
+        const list = await List.findById(listId);
+    
+        if (!list) {
+          throw new Error("List not found");
+        }
+    
+        if (list.createdBy.toString() !== context.user.id) {
+          throw new Error("You are not authorized to delete this list");
+        }
+    
+        await List.findByIdAndDelete(listId);
+    
+        return "List deleted successfully";
+      }
+    
+      throw new AuthenticationError(
+        "You must be logged in to delete a list"
+      );
     },
     addItemToList: async (parent, { listId, itemName }, context) => {
       if (context.user) {
@@ -86,7 +109,7 @@ const resolvers = {
         "You must be logged in to add an item to a list"
       );
     },
-
+          
     deleteItemFromList: async (parent, { listId, itemId }, context) => {
       if (context.user) {
         const list = await List.findById(listId);
