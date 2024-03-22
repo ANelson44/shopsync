@@ -114,27 +114,6 @@ const resolvers = {
         "You must be logged in to delete an item from a list"
       );
     },
-    deleteList: async (parent, { listId }, context) => {
-      if (context.user) {
-        const list = await List.findById(listId);
-    
-        if (!list) {
-          throw new Error("List not found");
-        }
-    
-        if (list.createdBy.toString() !== context.user.id) {
-          throw new Error("You are not authorized to delete this list");
-        }
-    
-        await List.findByIdAndDelete(listId);
-    
-        return "List deleted successfully";
-      }
-    
-      throw new AuthenticationError(
-        "You must be logged in to delete a list"
-      );
-    },
     addCollaboratorToList: async (parent, { listId, userId }, context) => {
       if (context.user) {
         const list = await List.findById(listId);
@@ -167,6 +146,27 @@ const resolvers = {
     }
 
     throw new AuthenticationError("You must be logged in to add a collaborator to a list");
+  },
+  deleteList: async (parent, { listId }, context) => {
+    if (context.user) {
+      const list = await List.findById(listId);
+  
+      if (!list) {
+        throw new Error("List not found");
+      }
+  
+      if (list.createdBy.toString() !== context.user.id) {
+        throw new Error("You are not authorized to delete this list");
+      }
+  
+      await List.findByIdAndDelete(listId);
+  
+      return "List deleted successfully";
+    }
+  
+    throw new AuthenticationError(
+      "You must be logged in to delete a list"
+    );
   },
     updateUser: async (parent, args, context) => {
       if (context.user) {
