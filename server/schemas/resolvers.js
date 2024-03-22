@@ -109,38 +109,7 @@ const resolvers = {
         "You must be logged in to add an item to a list"
       );
     },
-      updateItemInList: async (parent, { listId, itemId, updatedItem }, context) => {
-        if (context.user) {
-          const list = await List.findById(listId);
-    
-          if (!list) {
-            throw new Error("List not found");
-          }
-    
-          // Check if the user owns the list before updating the item
-          if (list.createdBy.toString() !== context.user.id) {
-            throw new Error("You are not authorized to update items in this list");
-          }
-    
-          const itemIndex = list.items.findIndex(item => item.toString() === itemId);
-    
-          if (itemIndex === -1) {
-            throw new Error("Item not found in the list");
-          }
-    
-          // Update the item properties
-          list.items[itemIndex] = { ...list.items[itemIndex], ...updatedItem };
-    
-          // Save the updated list
-          await list.save();
-    
-          const populatedList = await list.populate("items").execPopulate();
-    
-          return populatedList;
-        }
-    
-        throw new AuthenticationError("You must be logged in to update an item in a list");
-      },    
+          
     deleteItemFromList: async (parent, { listId, itemId }, context) => {
       if (context.user) {
         const list = await List.findById(listId);
@@ -168,6 +137,92 @@ const resolvers = {
         "You must be logged in to delete an item from a list"
       );
     },
+    addCollaboratorToList: async (parent, { listId, userId }, context) => {
+      if (context.user) {
+        const list = await List.findById(listId);
+  
+        if (!list) {
+          throw new Error("List not found");
+        }
+  
+        // Check if the user is the owner of the list
+        if (list.createdBy.toString() !== context.user._id) {
+          throw new Error("Only the owner can add collaborators to the list");
+        }
+  
+        /// Find the user by email
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Add the user as a collaborator if not already added
+      if (!list.collaborators.includes(user._id)) {
+        list.collaborators.push(user._id);
+      }
+
+      // Save the updated list
+      await list.save();
+
+      return list;
+    }
+
+    throw new AuthenticationError("You must be logged in to add a collaborator to a list");
+  },
+  updateItemInList: async (parent, { listId, itemId, updatedItem }, context) => {
+    if (context.user) {
+      const list = await List.findById(listId);
+
+      if (!list) {
+        throw new Error("List not found");
+      }
+
+      // Check if the user owns the list before updating the item
+      if (list.createdBy.toString() !== context.user.id) {
+        throw new Error("You are not authorized to update items in this list");
+      }
+
+      const itemIndex = list.items.findIndex(item => item.toString() === itemId);
+
+      if (itemIndex === -1) {
+        throw new Error("Item not found in the list");
+      }
+
+      // Update the item properties
+      list.items[itemIndex] = { ...list.items[itemIndex], ...updatedItem };
+
+      // Save the updated list
+      await list.save();
+
+      const populatedList = await list.populate("items").execPopulate();
+
+      return populatedList;
+    }
+
+    throw new AuthenticationError("You must be logged in to update an item in a list");
+  },    
+  deleteList: async (parent, { listId }, context) => {
+    if (context.user) {
+      const list = await List.findById(listId);
+  
+      if (!list) {
+        throw new Error("List not found");
+      }
+  
+      if (list.createdBy.toString() !== context.user.id) {
+        throw new Error("You are not authorized to delete this list");
+      }
+  
+      await List.findByIdAndDelete(listId);
+  
+      return "List deleted successfully";
+    }
+  
+    throw new AuthenticationError(
+      "You must be logged in to delete a list"
+    );
+  },
     updateUser: async (parent, args, context) => {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, {

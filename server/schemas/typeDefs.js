@@ -10,6 +10,8 @@ type Item {
     title: String
     addedDate: Date
     items: [Item]
+    createdBy: User
+    collaborators: [User]
   }
   
   type User {
@@ -47,6 +49,7 @@ type Item {
   
   type Mutation {
     addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    addCollaboratorToList(listId: ID!, email: String!): List
     createList(title: String!): List
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     addItemToList(listId: ID!, name: String!, quantity: String): Item
