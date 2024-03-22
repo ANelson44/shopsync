@@ -223,6 +223,31 @@ const resolvers = {
       "You must be logged in to delete a list"
     );
   },
+  leaveList: async (parent, { listId }, context) => {
+    if (context.user) {
+      const list = await List.findById(listId);
+
+      if (!list) {
+        throw new Error("List not found");
+      }
+
+      // Check if the user is a collaborator on the list
+      const isCollaborator = list.collaborators.includes(context.user._id);
+      if (!isCollaborator) {
+        throw new Error("You are not a collaborator on this list");
+      }
+
+      // Remove the user from the list of collaborators
+      list.collaborators = list.collaborators.filter(userId => userId.toString() !== context.user._id);
+
+      // Save the updated list
+      await list.save();
+
+      return list;
+    }
+
+    throw new AuthenticationError("You must be logged in to leave a list");
+  },
     updateUser: async (parent, args, context) => {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, {
