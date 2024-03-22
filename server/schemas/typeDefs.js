@@ -58,6 +58,7 @@ type Item {
     logout: LogoutResponse
     deleteItemFromList(listId: ID!, itemId: ID!): List
     deleteList(listId: ID!): String
+    leaveList(listId: ID!): List
   }
 
   input UpdateItemInput {
