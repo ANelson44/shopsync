@@ -47,7 +47,7 @@ userSchema.methods.isCorrectPassword = async function(password) {
   return await bcrypt.compare(password, this.password);
 };
 
-// highlight entire code snippet and "cntrl+?" to uncomment what needs to be uncommented. commented out for temporary testing and setup
+// // highlight entire code snippet and "cntrl+?" to uncomment what needs to be uncommented. commented out for temporary testing and setup
 
 // // email verification email (comment out if issues pop up. may need to be adjusted as we continue.)
 //   // nodemailer transporter
@@ -93,12 +93,18 @@ userSchema.methods.isCorrectPassword = async function(password) {
 // const subject = 'Verify Your Email Address';
 // const verificationToken = 'random_generated_token';
 // const htmlContent = `
-// <p>Thank you for signing up to join our App!</p>
-// <p>Please click the following l;ink to verify your email address:</P>
-// <a href="http://OUR-URL-HERE/verify/${verificationToken}"> Verify Email.</a>`;
+//   <div style ="font-family: Arial, sans-serif; max=width:  600px; margin: 0 auto;">
+//     <h2 style="text-align: center;"> Email Verification</h2>
+//     <p style="text-align: center;"> Thank you for signing up!</p>
+//     <p style=:"text-align: center;">Please click the following link to verify your email address</p>
+//     <div style="text-align: center;">
+//       <a href="COPY URL HERE ${verificationToken}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+//     </div>
+//   </div>
+// `;
 
 
-// sendVerificationEmail(transporter, emailServiceConfig.auth.user, userEmail, subject, htmlContent)
+sendVerificationEmail(transporter, emailServiceConfig.auth.user, userEmail, subject, htmlContent)
 
 const User = mongoose.model('User', userSchema);
 
