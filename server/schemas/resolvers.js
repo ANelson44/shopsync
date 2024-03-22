@@ -170,6 +170,38 @@ const resolvers = {
 
     throw new AuthenticationError("You must be logged in to add a collaborator to a list");
   },
+  updateItemInList: async (parent, { listId, itemId, updatedItem }, context) => {
+    if (context.user) {
+      const list = await List.findById(listId);
+
+      if (!list) {
+        throw new Error("List not found");
+      }
+
+      // Check if the user owns the list before updating the item
+      if (list.createdBy.toString() !== context.user.id) {
+        throw new Error("You are not authorized to update items in this list");
+      }
+
+      const itemIndex = list.items.findIndex(item => item.toString() === itemId);
+
+      if (itemIndex === -1) {
+        throw new Error("Item not found in the list");
+      }
+
+      // Update the item properties
+      list.items[itemIndex] = { ...list.items[itemIndex], ...updatedItem };
+
+      // Save the updated list
+      await list.save();
+
+      const populatedList = await list.populate("items").execPopulate();
+
+      return populatedList;
+    }
+
+    throw new AuthenticationError("You must be logged in to update an item in a list");
+  },    
   deleteList: async (parent, { listId }, context) => {
     if (context.user) {
       const list = await List.findById(listId);
