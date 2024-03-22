@@ -2,6 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import '../styles/header.css';
 
 
 function Header() {
@@ -15,8 +16,6 @@ function Header() {
             <Nav.Link href="#welcome">Welcome</Nav.Link>
             <Nav.Link href="lists">Lists</Nav.Link>
             <Nav.Link href="#friends">My Friends</Nav.Link>
-            <Button href="#Login">Login</Button>
-            <Button href="#Signup">Signup</Button>
           </Nav>
         </Container>
       </Navbar>
