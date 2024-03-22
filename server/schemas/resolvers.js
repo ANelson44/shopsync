@@ -114,7 +114,6 @@ const resolvers = {
         "You must be logged in to delete an item from a list"
       );
     },
-
     deleteList: async (parent, { listId }, context) => {
       if (context.user) {
         const list = await List.findById(listId);
@@ -136,7 +135,39 @@ const resolvers = {
         "You must be logged in to delete a list"
       );
     },
+    addCollaboratorToList: async (parent, { listId, userId }, context) => {
+      if (context.user) {
+        const list = await List.findById(listId);
+  
+        if (!list) {
+          throw new Error("List not found");
+        }
+  
+        // Check if the user is the owner of the list
+        if (list.createdBy.toString() !== context.user._id) {
+          throw new Error("Only the owner can add collaborators to the list");
+        }
+  
+        /// Find the user by email
+      const user = await User.findOne({ email });
 
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Add the user as a collaborator if not already added
+      if (!list.collaborators.includes(user._id)) {
+        list.collaborators.push(user._id);
+      }
+
+      // Save the updated list
+      await list.save();
+
+      return list;
+    }
+
+    throw new AuthenticationError("You must be logged in to add a collaborator to a list");
+  },
     updateUser: async (parent, args, context) => {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, {
