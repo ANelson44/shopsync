@@ -10,12 +10,11 @@ function Header() {
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-
+        <img src="client/public/images/ShopSync-Logo.png" alt="Shopsync Logo" />
           <Navbar.Brand href="/">Shopsync</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#welcome">Welcome</Nav.Link>
-            <Nav.Link href="lists">Lists</Nav.Link>
-            <Nav.Link href="#friends">My Friends</Nav.Link>
+            <Nav.Link href='/Lists'>Lists</Nav.Link>
+            <Nav.Link href='/Friends'>My Friends</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
