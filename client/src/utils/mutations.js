@@ -28,7 +28,7 @@ export const GET_LISTS = gql`
   query GetLists {
     lists {
       _id
-      name
+      title
       items {
         _id
         name
@@ -41,7 +41,7 @@ export const ADD_LIST = gql`
   mutation AddList($name: String!) {
     addList(name: $name) {
       _id
-      name
+      title
       items {
         _id
         name
@@ -54,7 +54,7 @@ export const ADD_ITEM_TO_LIST = gql`
   mutation AddItemToList($listId: ID!, $itemName: String!) {
     addItemToList(listId: $listId, itemName: $itemName) {
       _id
-      name
+      title
       items {
         _id
         name
@@ -79,7 +79,7 @@ export const UPDATE_LIST_NAME = gql`
   mutation UpdateListName($listId: ID!, $newName: String!) {
     updateListName(listId: $listId, newName: $newName) {
       _id
-      name
+      title
     }
   }
 `;
