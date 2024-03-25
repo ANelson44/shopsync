@@ -1,58 +1,66 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Container, Row, Col } from 'react-bootstrap';
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_LISTS, ADD_LIST, ADD_ITEM_TO_LIST, DELETE_ITEM_FROM_LIST, UPDATE_LIST_NAME } from '../utils/mutations';
 import List from '../components/List';
 
 const Dashboard = () => {
-  const [lists, setLists] = useState([]);
+  const { loading, error, data } = useQuery(GET_LISTS);
 
-  const addNewList = () => {
-    const newList = {
-      id: lists.length,
-      name: `List ${lists.length + 1}`,
-      items: []
-    };
-    setLists([...lists, newList]);
+  const [addList] = useMutation(ADD_LIST);
+  const [addItemToList] = useMutation(ADD_ITEM_TO_LIST);
+  const [deleteItemFromList] = useMutation(DELETE_ITEM_FROM_LIST);
+  const [updateListName] = useMutation(UPDATE_LIST_NAME);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const handleAddNewList = async () => {
+    await addList({
+      variables: { name: `List ${data.lists.length + 1}` },
+      refetchQueries: [{ query: GET_LISTS }],
+    });
   };
 
-  const handleAddItemToList = (listId, itemName) => {
-    const updatedLists = lists.map(list =>
-      list.id === listId ? { ...list, items: [...list.items, itemName] } : list
-    );
-    setLists(updatedLists);
+  const handleAddItem = async (listId, itemName) => {
+    await addItemToList({
+      variables: { listId, itemName },
+      refetchQueries: [{ query: GET_LISTS }],
+    });
   };
 
-  const handleDeleteItemFromList = (listId, itemIndex) => {
-    const updatedLists = lists.map(list =>
-      list.id === listId ? { ...list, items: list.items.filter((_, index) => index !== itemIndex) } : list
-    );
-    setLists(updatedLists);
+  const handleDeleteItem = async (listId, itemId) => {
+    await deleteItemFromList({
+      variables: { listId, itemId },
+      refetchQueries: [{ query: GET_LISTS }],
+    });
   };
 
-  const handleUpdateListName = (listId, newName) => {
-    const updatedLists = lists.map(list =>
-      list.id === listId ? { ...list, name: newName } : list
-    );
-    setLists(updatedLists);
+  const handleRenameList = async (listId, newName) => {
+    await updateListName({
+      variables: { listId, newName },
+      refetchQueries: [{ query: GET_LISTS }],
+    });
   };
 
   return (
     <Container fluid className="bg-dark text-white vh-100 p-2">
       <Row className="my-4 justify-content-center">
         <Col xs={12} md={8} lg={6}>
-          <Button onClick={addNewList} variant="outline-light">New List</Button>
+          <Button onClick={handleAddNewList} variant="outline-light">New List</Button>
         </Col>
       </Row>
-      {lists.map(list => (
-        <Row key={list.id} className="justify-content-center">
+      {data && data.lists.map(list => (
+        <Row key={list._id} className="justify-content-center">
           <Col xs={12} md={8} lg={6}>
-          <List
-          id={list.id}
-          name={list.name}
-          items={list.items}
-          addItem={handleAddItemToList}
-          deleteItem={handleDeleteItemFromList}
-          updateListName={handleUpdateListName}
-          />
+            <List
+              id={list._id}
+              name={list.name}
+              items={list.items}
+              addItem={(itemName) => handleAddItem(list._id, itemName)}
+              deleteItem={(itemIndex) => handleDeleteItem(list._id, list.items[itemIndex]._id)}
+              updateListName={(newName) => handleRenameList(list._id, newName)}
+            />
           </Col>
         </Row>
       ))}
