@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 
 const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
