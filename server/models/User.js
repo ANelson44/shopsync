@@ -8,12 +8,7 @@ const List = require('./List');
 const emailRegex = [/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Must match an email address!'];
 
 const userSchema = new Schema({
-  firstName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  lastName: {
+  userName: {
     type: String,
     required: true,
     trim: true
