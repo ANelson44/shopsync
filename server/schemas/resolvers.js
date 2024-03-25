@@ -42,6 +42,18 @@ const resolvers = {
 
       throw AuthenticationError;
     },
+    lists: async (parent, { _id }, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id).populate({
+          path: "lists.items",
+          populate: "list",
+        });
+
+        return user.lists;
+      }
+
+      throw AuthenticationError;
+    },
   },
   Mutation: {
     addUser: async (parent, args) => {
