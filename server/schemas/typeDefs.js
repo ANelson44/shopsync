@@ -16,8 +16,7 @@ type Item {
   
   type User {
     _id: ID
-    firstName: String
-    lastName: String
+    userName: String
     email: String
     lists: [List]
   }
@@ -48,10 +47,10 @@ type Item {
   }
   
   type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    addUser(userName: String!, email: String!, password: String!): Auth
     addCollaboratorToList(listId: ID!, email: String!): List
     createList(title: String!): List
-    updateUser(firstName: String, lastName: String, email: String, password: String): User
+    updateUser(userName: String, email: String, password: String): User
     addItemToList(listId: ID!, name: String!, quantity: String): Item
     updateItemInList(listId: ID!, itemId: ID!, updatedItem: UpdateItemInput!): List
     login(email: String!, password: String!): Auth
