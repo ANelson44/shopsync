@@ -6,19 +6,19 @@ export const LOGIN_USER = gql`
       token
       user {
         _id
-        username
+        userName
       }
     }
   }
 `;
 
 export const ADD_USER = gql`
-  mutation addUser($username: String!, $email: String!, $password: String!) {
-    addUser(username: $username, email: $email, password: $password) {
+  mutation addUser($userName: String!, $email: String!, $password: String!) {
+    addUser(userName: $userName, email: $email, password: $password) {
       token
       user {
         _id
-        username
+        userName
       }
     }
   }
@@ -28,10 +28,10 @@ export const GET_LISTS = gql`
   query GetLists {
     lists {
       _id
-      name
+      title
       items {
         _id
-        name
+        title
       }
     }
   }
@@ -41,10 +41,10 @@ export const ADD_LIST = gql`
   mutation AddList($name: String!) {
     addList(name: $name) {
       _id
-      name
+      title
       items {
         _id
-        name
+        title
       }
     }
   }
@@ -54,10 +54,10 @@ export const ADD_ITEM_TO_LIST = gql`
   mutation AddItemToList($listId: ID!, $itemName: String!) {
     addItemToList(listId: $listId, itemName: $itemName) {
       _id
-      name
+      title
       items {
         _id
-        name
+        title
       }
     }
   }
@@ -69,7 +69,7 @@ export const DELETE_ITEM_FROM_LIST = gql`
       _id
       items {
         _id
-        name
+        title
       }
     }
   }
@@ -79,7 +79,7 @@ export const UPDATE_LIST_NAME = gql`
   mutation UpdateListName($listId: ID!, $newName: String!) {
     updateListName(listId: $listId, newName: $newName) {
       _id
-      name
+      title
     }
   }
 `;
