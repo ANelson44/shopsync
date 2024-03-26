@@ -51,8 +51,8 @@ export const ADD_LIST = gql`
 `;
 
 export const ADD_ITEM_TO_LIST = gql`
-  mutation AddItemToList($listId: ID!, $itemName: String!) {
-    addItemToList(listId: $listId, itemName: $itemName) {
+  mutation AddItemToList($listId: ID!, $name: String!) {
+    addItemToList(listId: $listId, name: $name) {
       _id
       title
       items {
