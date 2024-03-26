@@ -17,7 +17,7 @@ const Dashboard = () => {
 
   const handleAddNewList = async () => {
     await addList({
-      variables: { name: `List ${data.lists.length + 1}` },
+      variables: { title: `List ${data.lists.length + 1}` },
       refetchQueries: [{ query: GET_LISTS }],
     });
   };
