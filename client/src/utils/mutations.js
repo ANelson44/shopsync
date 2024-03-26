@@ -31,20 +31,20 @@ export const GET_LISTS = gql`
       title
       items {
         _id
-        title
+        name
       }
     }
   }
 `;
 
 export const ADD_LIST = gql`
-  mutation AddList($name: String!) {
-    addList(name: $name) {
+  mutation AddList($title: String!) {
+    addList(title: $title) {
       _id
       title
       items {
         _id
-        title
+        name
       }
     }
   }
@@ -57,7 +57,7 @@ export const ADD_ITEM_TO_LIST = gql`
       title
       items {
         _id
-        title
+        name
       }
     }
   }
@@ -69,7 +69,7 @@ export const DELETE_ITEM_FROM_LIST = gql`
       _id
       items {
         _id
-        title
+        name
       }
     }
   }
