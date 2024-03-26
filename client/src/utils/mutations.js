@@ -51,14 +51,11 @@ export const ADD_LIST = gql`
 `;
 
 export const ADD_ITEM_TO_LIST = gql`
-  mutation addItemToList($listId: ID!, $name: String!) {
-    addItemToList(listId: $listId, name: $name) {
+  mutation AddItemToList($listId: ID!, $name: String!, $quantity: String) {
+    addItemToList(listId: $listId, name: $name, quantity: $quantity) {
       _id
-      title
-      items {
-        _id
-        name
-      }
+      name
+      quantity
     }
   }
 `;
