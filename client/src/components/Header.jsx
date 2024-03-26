@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import '../styles/header.css';
+import shopsyncLogo from "../assets/shopsync-logo.png"
 
 
 function Header() {
@@ -10,7 +11,7 @@ function Header() {
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-
+        <img src={shopsyncLogo} />
           <Navbar.Brand href="/">Shopsync</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#welcome">Welcome</Nav.Link>

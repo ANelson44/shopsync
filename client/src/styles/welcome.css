@@ -1,0 +1,10 @@
+body {
+    background-image: url(../assets/welcome-page.jpg);
+    background-position: cover;
+    background-size: cover;
+}
+
+.py-5 {
+    color: black; 
+}
+
