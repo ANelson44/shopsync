@@ -22,9 +22,9 @@ const Dashboard = () => {
     });
   };
 
-  const handleAddItem = async (listId, itemName) => {
+  const handleAddItem = async (listId, name) => {
     await addItemToList({
-      variables: { listId, itemName },
+      variables: { listId, name },
       refetchQueries: [{ query: GET_LISTS }],
     });
   };
