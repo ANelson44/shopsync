@@ -17,14 +17,14 @@ const Dashboard = () => {
 
   const handleAddNewList = async () => {
     await addList({
-      variables: { name: `List ${data.lists.length + 1}` },
+      variables: { title: `List ${data.lists.length + 1}` },
       refetchQueries: [{ query: GET_LISTS }],
     });
   };
 
-  const handleAddItem = async (listId, itemName) => {
+  const handleAddItem = async (listId, name) => {
     await addItemToList({
-      variables: { listId, itemName },
+      variables: { listId, name },
       refetchQueries: [{ query: GET_LISTS }],
     });
   };

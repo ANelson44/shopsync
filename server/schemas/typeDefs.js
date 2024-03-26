@@ -43,6 +43,7 @@ type Item {
     item(_id: ID!): Item
     user: User
     list(_id: ID!): List
+    lists:[List]
     myType(id: ID!): MyType
   }
   
