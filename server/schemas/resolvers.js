@@ -295,6 +295,27 @@ const resolvers = {
 
       return { message: "Logout successful" };
     },
+    updateListName: async (parent, { listId, newName }, context) => {
+      if (context.user) {
+        const list = await List.findById(listId);
+
+        if (!list) {
+          throw new Error("List not found");
+        }
+
+        // Check if the user owns the list before updating the name
+        if (list.createdBy.toString() !== context.user._id) {
+          throw new Error("You are not authorized to update this list");
+        }
+
+        list.title = newName;
+        await list.save();
+
+        return list;
+      }
+
+      throw new AuthenticationError("You must be logged in to update a list");
+    },
   },
 };
 
