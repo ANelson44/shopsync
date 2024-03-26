@@ -5,10 +5,15 @@ import Button from 'react-bootstrap/Button';
 import '../styles/header.css';
 import shopsyncLogo from "../assets/shopsync-logo.png"
 import Auth from '../utils/auth';
+import { Link } from 'react-router-dom'
 
 
 
 function Header() {
+  function logOut()
+  {
+    localStorage.clear();
+  }
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
@@ -20,7 +25,7 @@ function Header() {
             <Nav.Link href="/lists">Lists</Nav.Link>
             <Nav.Link href="/friends">My Friends</Nav.Link>
           </Nav>
-          <Button variant="light">Log Out</Button>
+          <Button href="/" variant="light" onClick={logOut}>Log Out</Button>
         </Container>
       </Navbar>
     </>
