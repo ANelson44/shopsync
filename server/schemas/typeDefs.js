@@ -59,6 +59,7 @@ type Item {
     deleteItemFromList(listId: ID!, itemId: ID!): List
     deleteList(listId: ID!): String
     leaveList(listId: ID!): List
+    updateListName(listId: ID!, newName: String!): List
   }
 
   input UpdateItemInput {
