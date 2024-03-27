@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import '../styles/header.css';
 import shopsyncLogo from "../assets/shopsync-logo.png"
-import AuthService from '../path/to/AuthService';
+import AuthService from '../utils/auth';
 import { Link } from 'react-router-dom'
 
 
