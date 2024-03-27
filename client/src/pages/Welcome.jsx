@@ -3,10 +3,12 @@ import { Container, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import welcomeImage from "../assets/welcome-page.jpg"
 import '../styles/welcome.css';
-
+import AuthService from '../path/to/AuthService';
 
 const Welcome = () => {
   const navigate = useNavigate();
+
+  const isLoggedIn = AuthService.loggedIn();
 
   return (
     <Container className="p-5 bg-dark-subtle rounded-3">
@@ -15,13 +17,21 @@ const Welcome = () => {
         <p className="col-md-8 fs-4">
           Your smart shopping list partner. Create and manage your shopping lists with ease.
         </p>
-        <Button variant="primary" size="lg" onClick={() => navigate('/signup')}>
-          Sign Up Now
-        </Button>
-        {' '}
-        <Button variant="secondary" size="lg" onClick={() => navigate('/login')}>
-          Log In
-        </Button>
+        {isLoggedIn ? (
+          <Button variant="primary" size="lg" onClick={() => navigate('/dashboard')}>
+            Go to Lists
+          </Button>
+        ) : (
+          <>
+            <Button variant="primary" size="lg" onClick={() => navigate('/signup')}>
+              Sign Up Now
+            </Button>
+            {' '}
+            <Button variant="secondary" size="lg" onClick={() => navigate('/login')}>
+              Log In
+            </Button>
+          </>
+        )}
       </Container>
     </Container>
   );
