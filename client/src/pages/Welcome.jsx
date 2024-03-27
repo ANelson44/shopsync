@@ -18,7 +18,7 @@ const Welcome = () => {
           Your smart shopping list partner. Create and manage your shopping lists with ease.
         </p>
         {isLoggedIn ? (
-          <Button variant="primary" size="lg" onClick={() => navigate('/dashboard')}>
+          <Button variant="primary" size="lg" onClick={() => navigate('/lists')}>
             Go to Lists
           </Button>
         ) : (
