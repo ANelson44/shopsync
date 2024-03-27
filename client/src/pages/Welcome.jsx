@@ -3,7 +3,7 @@ import { Container, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import welcomeImage from "../assets/welcome-page.jpg"
 import '../styles/welcome.css';
-import AuthService from '../path/to/AuthService';
+import AuthService from '../utils/auth';
 
 const Welcome = () => {
   const navigate = useNavigate();
