@@ -112,9 +112,7 @@ const resolvers = {
         list.items.push(newItem._id);
         await list.save();
 
-        const populatedList = await List.findById(listId).populate("items");
-
-        return populatedList;
+        return newItem;
       }
 
       throw new AuthenticationError(
