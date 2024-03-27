@@ -6,12 +6,19 @@ const List = ({ id, name, addItem, items, deleteItem, updateListName }) => {
   const [isEditingName, setIsEditingName] = useState(false);
   const [editedName, setEditedName] = useState(name);
 
-  const handleAddItem = () => {
-    if (newItemText.trim() !== '') {
-      addItem(id, newItemText);
+  const handleAddItem = async () => {
+    const trimmedText = newItemText.trim();
+    if (trimmedText !== '') {
       setNewItemText('');
+      console.log('trimmedText: ',trimmedText);
+      try {
+        await addItem(id, trimmedText);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
+  
 
   const handleNameEdit = () => {
     updateListName(id, editedName);
