@@ -99,7 +99,7 @@ const resolvers = {
         "You must be logged in to delete a list"
       );
     },
-    addItemToList: async (parent, { listId, itemName }, context) => {
+    addItemToList: async (parent, { listId, name }, context) => {
       if (context.user) {
         const list = await List.findById(listId);
 
@@ -107,7 +107,7 @@ const resolvers = {
           throw new Error("List not found");
         }
 
-        const newItem = await Item.create({ name: itemName });
+        const newItem = await Item.create({ name: name });
 
         list.items.push(newItem._id);
         await list.save();
