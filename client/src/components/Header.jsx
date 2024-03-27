@@ -4,16 +4,18 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import '../styles/header.css';
 import shopsyncLogo from "../assets/shopsync-logo.png"
-import Auth from '../utils/auth';
+import AuthService from '../path/to/AuthService';
 import { Link } from 'react-router-dom'
 
 
 
 function Header() {
-  function logOut()
-  {
-    localStorage.clear();
-  }
+  const isLoggedIn = AuthService.loggedIn();
+
+  const handleLogout = () => {
+    AuthService.logout(); // Call the logout method from AuthService
+  };
+
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
@@ -25,7 +27,11 @@ function Header() {
             <Nav.Link href="/lists">Lists</Nav.Link>
             <Nav.Link href="/friends">My Friends</Nav.Link>
           </Nav>
-          <Button href="/" variant="light" onClick={logOut}>Log Out</Button>
+          {isLoggedIn ? ( // Conditionally render the logout button if logged in
+            <Button variant="light" onClick={handleLogout}>
+              Log Out
+            </Button>
+          ) : null}
         </Container>
       </Navbar>
     </>
